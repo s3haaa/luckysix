@@ -6,15 +6,6 @@ char crt[] = "\n-----------------------------\n";
 char crtn[] = "-----------------------------\n";
 const int vrijednost[35] = { 0,0,0,0,0,10000,7500,5000,2500,1000,500,300,200,150,100,80,60,40,30,25,20,18,16,14,12,10,9,8,7,6,5,4,3,2,1 };
 
-long long faktorijel(int n) {
-	if (n == 0 || n == 1) {
-		return 1;
-	}
-	else {
-		return n * faktorijel(n - 1);
-	}
-}
-
 void unosBrojeva(int* mojiBrojevi, int brVel, float& iznos) {
 	for (int i = 0; i < brVel; i++) {
 		cout << "[" << i + 1 << "]: ";
@@ -94,30 +85,18 @@ void brojPogodjenih(int* mojiBrojevi, int izvuceni[], int brVel, int& brojac, in
 
 void ispisVasegDobitka(int brVel, int zadnjaPoz, int duplaVr, float uplata, int brojac) {
 	cout << "Ukupno pogodjenih: " << brojac << " od " << brVel << endl;
-	int ukupnoBrojeva = 48;
-	int odabranoBrojeva = brVel;
-	int dodatniBrojevi = brVel - 6;
-	int sistemi[] = { 6, 7, 8, 9 };
-	long long brojKombinacija;
+	int brojKombinacija = 0;
+	if (brVel == 6) brojKombinacija = 1;
+	if (brVel == 7) brojKombinacija = 7;
+	if (brVel == 8) brojKombinacija = 28;
+	if (brVel == 9) brojKombinacija = 84;
 
-	for (int i = 0; i < sizeof(sistemi) / sizeof(sistemi[0]); ++i) {
-		int k = 6;
-		int n = sistemi[i];
-		brojKombinacija = faktorijel(n) / (faktorijel(k) * faktorijel(n - k));
-	}
 	cout << "Zadnji broj se nalazi na " << vrijednost[zadnjaPoz] << " KM." << endl;
 	cout << crt;
-	cout << "Ostvarena vrijednost:\t" << setw(7) << (float)vrijednost[zadnjaPoz] << endl; //1-9/9  0-9/9   1-6/9 0-6/9
-	if (duplaVr > 0 && brojKombinacija == 0) {
+	cout << "Ostvarena vrijednost:\t" << setw(7) << (float)vrijednost[zadnjaPoz] << endl;
+	if (duplaVr > 0) {
 		cout << "+Dupla isplata:\t" << setw(7) << duplaVr * (vrijednost[zadnjaPoz]) << endl;
-		cout << "Ukupno za isplatiti\t" << setw(7) << fixed << setprecision(2) << duplaVr * uplata * vrijednost[zadnjaPoz];
-	}
-	else if (duplaVr == 0 && brojKombinacija == 0) {
-		cout << "Ukupno za isplatiti\t" << setw(7) << fixed << setprecision(2) << uplata * vrijednost[zadnjaPoz];
-	}
-	else if (duplaVr == 1 && brojKombinacija != 0) {
-		cout << "+Dupla isplata:\t" << setw(7) << duplaVr * (vrijednost[zadnjaPoz]) << endl;
-		cout << "Ukupno za isplatiti\t" << setw(7) << fixed << setprecision(2) << (uplata / brojKombinacija) * vrijednost[zadnjaPoz];
+		cout << "Ukupno za isplatiti\t" << setw(7) << fixed << setprecision(2) << duplaVr * (uplata / brojKombinacija) * vrijednost[zadnjaPoz];
 	}
 	else {
 		cout << "Ukupno za isplatiti\t" << setw(7) << fixed << setprecision(2) << (uplata / brojKombinacija) * vrijednost[zadnjaPoz];
